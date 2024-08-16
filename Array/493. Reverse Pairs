@@ -1,0 +1,41 @@
+class Solution:
+    def reversePairs(self, nums: List[int]) -> int:
+        def merge(nums,l,m,r):
+            temp=[]
+            left,right=l,m+1
+
+            while left<=m  and right<=r:
+                if nums[left]<=nums[right]:
+                    temp.append(nums[left])
+                    left+=1
+                else:
+                    temp.append(nums[right])
+                    right+=1
+            while left<=m:
+                temp.append(nums[left])
+                left+=1
+            while right<=r:
+                temp.append(nums[right])
+                right+=1
+            for i in range(l,r+1):
+                nums[i]=temp[i-l]
+        def countPairs(nums,l,m,r):
+            right=m+1
+            count=0
+            for i in range(l,m+1):
+                while right<=r and nums[i]>2*nums[right]:
+                    right+=1
+                count+=(right-(m+1))
+            return count
+        def mergeSort(nums,l,r):
+            count=0
+            if l>=r:
+                return count
+            if l<=r:
+                m=(l+r)//2
+                count+=mergeSort(nums,l,m)
+                count+=mergeSort(nums,m+1,r)
+                count+=countPairs(nums,l,m,r)
+                merge(nums,l,m,r)
+            return count
+        return mergeSort(nums,0,len(nums)-1)
