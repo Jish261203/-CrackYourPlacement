@@ -1,0 +1,13 @@
+import queue 
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        freq_map=Counter(nums)
+        pq=queue.PriorityQueue()
+        for num ,freq in freq_map.items():
+            pq.put((freq,num))
+            if pq.qsize()>k:
+                pq.get()
+        res=[]
+        while not pq.empty():
+            res.append(pq.get()[1])
+        return res
