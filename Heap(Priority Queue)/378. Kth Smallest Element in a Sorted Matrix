@@ -1,0 +1,18 @@
+import queue
+class Solution:
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        n=len(matrix)
+        def count_less(target):
+            count=0
+            for i in range(n):
+                count+=bisect.bisect_right(matrix[i],target)
+            return count
+        left, right=matrix[0][0], matrix[-1][-1]
+        while left<right:
+            mid=(left+right)//2
+            if count_less(mid)<k:
+                left=mid+1
+            else:
+                right=mid
+        return left
+        
