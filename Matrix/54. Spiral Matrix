@@ -1,0 +1,21 @@
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        direction = [(0, 1), (1, 0), (0, -1), (-1, 0)] 
+        n,m=len(matrix), len(matrix[0])
+        res=[]
+        r, c=0, 0
+        d=0
+        seen=[[False]*m for _ in range(n)]
+
+        for _ in range(n*m):
+            res.append(matrix[r][c])
+            seen[r][c]=True
+
+            mr,mc=r+direction[d][0] , c+direction[d][1]
+
+            if not(0<=mr<n and 0<=mc<m and not seen[mr][mc]):
+                d=(d+1)%4
+                mr,mc=r+direction[d][0] , c+direction[d][1]
+            r, c =mr, mc
+        return res
+
