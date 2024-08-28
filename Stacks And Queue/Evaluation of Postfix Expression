@@ -1,0 +1,22 @@
+class Solution:
+    
+    #Function to evaluate a postfix expression.
+    def evaluatePostfix(self, S):
+        stack=[]
+        for char in S:
+            if char.isdigit():
+                stack.append(int(char))
+            else:
+                b=stack.pop()
+                a=stack.pop()
+                
+                if char=="+":
+                    stack.append(a+b)
+                if char=="-":
+                    stack.append(a-b)
+                if char=="*":
+                    stack.append(a*b)    
+                if char=="/":
+                    stack.append(int(a/b))
+        return stack[-1]
+            
