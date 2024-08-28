@@ -1,0 +1,26 @@
+class Solution:
+    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        # res=[]
+        # n1=len(nums1)
+        # n2=len(nums2)
+
+        # for num in nums1:
+        #     x=nums2.index(num)
+        #     found=False
+        #     for j in range(x+1,n2):
+        #         if nums2[j]>num:
+        #             res.append(nums2[j])
+        #             found=True
+        #             break
+        #     if not found:
+        #         res.append(-1)
+        # return res
+
+        hash_map={}
+        stack=[]
+
+        for ele in nums2:
+            while stack and stack[-1]<ele:
+                hash_map[stack.pop()]=ele
+            stack.append(ele)
+        return [hash_map.get(ele,-1) for ele in nums1]
