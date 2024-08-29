@@ -1,0 +1,45 @@
+from collections import deque
+
+class Solution:
+    def orangesRotting(self, grid):
+        n = len(grid)
+        m = len(grid[0])
+        
+        queue = deque()
+        fresh_oranges = 0
+        
+        # Directions for moving up, down, left, right
+        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        
+        # Initialize the queue with all the rotten oranges
+        for i in range(n):
+            for j in range(m):
+                if grid[i][j] == 2:
+                    queue.append((i, j))
+                elif grid[i][j] == 1:
+                    fresh_oranges += 1
+        
+        # If there are no fresh oranges, return 0
+        if fresh_oranges == 0:
+            return 0
+        
+        minutes_passed = 0
+        
+        # BFS Process
+        while queue:
+            minutes_passed += 1
+            for _ in range(len(queue)):
+                x, y = queue.popleft()
+                
+                # Check all four directions
+                for dx, dy in directions:
+                    nx, ny = x + dx, y + dy
+                    
+                    if 0 <= nx < n and 0 <= ny < m and grid[nx][ny] == 1:
+                        # Rot the fresh orange
+                        grid[nx][ny] = 2
+                        fresh_oranges -= 1
+                        queue.append((nx, ny))
+        
+        # If there are no fresh oranges left, return the time
+        return minutes_passed - 1 if fresh_oranges == 0 else -1
